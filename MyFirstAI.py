@@ -69,30 +69,30 @@ def Welc():
     #Task Greetz
     speak("TLG assistant is always awake. How can i help you?")
 
-def hearn(self):
-    self.parent = root
-    self.canvas = tkinter.Canvas(self.parent, width=400, height=400)
-    self.parent.resizable(width=False, height=False)
+def hearn():
+    parent = root
+    canvas = tkinter.Canvas(parent, width=400, height=400)
+    parent.resizable(width=False, height=False)
     #self.window = tkinter.Toplevel(self.canvas)
-    self.canvas.pack()
-    self.sequence = [ImageTk.PhotoImage(img)
+    canvas.pack()
+    sequence = [ImageTk.PhotoImage(img)
                         for img in ImageSequence.Iterator(
                                 Image.open(
                                 r'hearn.gif'))]
-    self.image = self.canvas.create_image(200,200, image=self.sequence[0])
-    self.animate(1)
-    self.parent.resizable(False, False)
-    self.parent._offsetx = 0
-    self.parent._offsety = 0
-    self.parent.bind('<Button-1>',self.clickwin)
-    self.parent.bind('<B1-Motion>',self.dragwin)
-    self.parent.update_idletasks()
-    self.parent.overrideredirect(1)
-    self.parent.mainloop()
+    image = canvas.create_image(200,200, image=sequence[0])
+    animate(1)
+    parent.resizable(False, False)
+    parent._offsetx = 0
+    parent._offsety = 0
+    parent.bind('<Button-1>',clickwin)
+    parent.bind('<B1-Motion>',dragwin)
+    parent.update_idletasks()
+    parent.overrideredirect(1)
+    parent.mainloop()
 
-def animate(self, counter):
-    self.canvas.itemconfig(self.image, image=self.sequence[counter])
-    self.parent.after(20, lambda: self.animate((counter+1) % len(self.sequence)))
+def animate(parent, counter):
+    parent.canvas.itemconfig(parent.image, image=parent.sequence[counter])
+    parent.parent.after(20, lambda: parent.animate((counter+1) % len(parent.sequence)))
 
 def dragwin(self,event):
     x = self.parent.winfo_pointerx() - self.parent._offsetx
