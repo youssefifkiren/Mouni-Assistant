@@ -19,7 +19,7 @@ import time
 import pyautogui # pyautogui library
 #from uii_2 import *
 
-root = tkinter.Tk()
+#root = tkinter.Tk()
 engine = pyttsx3.init()
 wolframalpha_app_id = 'VELJY4-6T9AT7ERX3'
 def speak(audio):
@@ -69,47 +69,47 @@ def Welc():
     #Task Greetz
     speak("TLG assistant is always awake. How can i help you?")
 
-def hearn():
-    parent = root
-    canvas = tkinter.Canvas(parent, width=400, height=400)
-    parent.resizable(width=False, height=False)
-    #self.window = tkinter.Toplevel(self.canvas)
-    canvas.pack()
-    sequence = [ImageTk.PhotoImage(img)
-                        for img in ImageSequence.Iterator(
-                                Image.open(
-                                r'hearn.gif'))]
-    image = canvas.create_image(200,200, image=sequence[0])
-    animate(1)
-    parent.resizable(False, False)
-    parent._offsetx = 0
-    parent._offsety = 0
-    parent.bind('<Button-1>',clickwin)
-    parent.bind('<B1-Motion>',dragwin)
-    parent.update_idletasks()
-    parent.overrideredirect(1)
-    parent.mainloop()
+#def hearn():
+#    parent = root
+#    canvas = tkinter.Canvas(parent, width=400, height=400)
+#    parent.resizable(width=False, height=False)
+#    #self.window = tkinter.Toplevel(self.canvas)
+#    canvas.pack()
+#    sequence = [ImageTk.PhotoImage(img)
+#                        for img in ImageSequence.Iterator(
+#                                Image.open(
+#                                r'hearn.gif'))]
+#    image = canvas.create_image(200,200, image=sequence[0])
+#    animate(1)
+#    parent.resizable(False, False)
+#    parent._offsetx = 0
+#    parent._offsety = 0
+#    parent.bind('<Button-1>',clickwin)
+#    parent.bind('<B1-Motion>',dragwin)
+#    parent.update_idletasks()
+#    parent.overrideredirect(1)
+#    parent.mainloop()
 
-def animate(parent, counter):
-    parent.canvas.itemconfig(parent.image, image=parent.sequence[counter])
-    parent.parent.after(20, lambda: parent.animate((counter+1) % len(parent.sequence)))
+#def animate(parent, counter):
+#    parent.canvas.itemconfig(parent.image, image=parent.sequence[counter])
+#    parent.parent.after(20, lambda: parent.animate((counter+1) % len(parent.sequence)))
 
-def dragwin(self,event):
-    x = self.parent.winfo_pointerx() - self.parent._offsetx
-    y = self.parent.winfo_pointery() - self.parent._offsety
-    self.parent.geometry('+{x}+{y}'.format(x=x,y=y))
+#def dragwin(self,event):
+#    x = self.parent.winfo_pointerx() - self.parent._offsetx
+#    y = self.parent.winfo_pointery() - self.parent._offsety
+#    self.parent.geometry('+{x}+{y}'.format(x=x,y=y))
 
-def clickwin(self,event):
-    self.parent._offsetx = event.x
-    self.parent._offsety = event.y
+#def clickwin(self,event):
+#    self.parent._offsetx = event.x
+#    self.parent._offsety = event.y
 
 def HearMe():
     r=rec.Recognizer()
     with rec.Microphone() as source:
         print("I'm hearing you...")
         #waitgif()
-        app = Thread(target=hearn)
-        app.start()
+        #app = Thread(target=hearn)
+        #app.start()
         #root.mainloop()
         r.pause_threshold = 1
         audio = r.listen(source)
@@ -121,7 +121,7 @@ def HearMe():
 
     except Exception as e:
         print(e)
-        print("Didn't hear anything, Say that again please.")
+        print("Didn't hear anything, Say it again please.")
         return "None"
     return query
 
@@ -184,7 +184,7 @@ if __name__ == "__main__":
             speak('opening'+query)
             if 'counter' in query:
                 wb.open('steam://rungameid/10')
-            if 'csgo' in query:
+            if 'cs' in query and 'go' in query:
                 wb.open('steam://rungameid/730')
         
         elif 'write' in query:
@@ -279,7 +279,7 @@ if __name__ == "__main__":
             time.sleep(ans)
             speak("i'm back")
         elif 'how are you' in query:
-            ans = ['i\'m fine man, no complains', 'i\'m good xD', 'today seems good i hope you the same for you', 'since you\'re here everything is good']
+            ans = ['i\'m fine man, no complains', 'i\'m good xD', 'today seems good i hope it\'s the same for you', 'since you\'re here everything is good']
             speak(ans[random.randint(0, len(ans)-1)])
         
         elif 'log out' in query:
@@ -287,5 +287,5 @@ if __name__ == "__main__":
         elif 'reboot' in query:
             os.system("shutdown /r /t 1")
         elif 'shut the system down' in query:
-            os.system("shutdown /r /t 1")
+            os.system("shutdown -l")
             
