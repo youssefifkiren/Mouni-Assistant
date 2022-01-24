@@ -17,9 +17,15 @@ import tkinter
 from PIL import Image, ImageTk, ImageSequence
 import time
 import pyautogui # pyautogui library
-#from uii_2 import *
+# from uii_2 import *
 
-#root = tkinter.Tk()
+parent = tkinter.Tk()
+canvas = None
+image = None
+sequence = [ImageTk.PhotoImage(img)
+                       for img in ImageSequence.Iterator(
+                               Image.open(
+                               r'hearn.gif'))]
 engine = pyttsx3.init()
 wolframalpha_app_id = 'VELJY4-6T9AT7ERX3'
 def speak(audio):
@@ -35,6 +41,7 @@ def Retdate():
     year = datetime.datetime.now().year
     month = calendar.month_name[datetime.datetime.now().month]
     day = datetime.datetime.now().day
+    print(f"The Date is {day}/{month}/{year}")
     speak("The Date is")
     speak(day)
     speak(month)
@@ -69,39 +76,37 @@ def Welc():
     #Task Greetz
     speak("TLG assistant is always awake. How can i help you?")
 
-#def hearn():
-#    parent = root
-#    canvas = tkinter.Canvas(parent, width=400, height=400)
-#    parent.resizable(width=False, height=False)
-#    #self.window = tkinter.Toplevel(self.canvas)
-#    canvas.pack()
-#    sequence = [ImageTk.PhotoImage(img)
-#                        for img in ImageSequence.Iterator(
-#                                Image.open(
-#                                r'hearn.gif'))]
-#    image = canvas.create_image(200,200, image=sequence[0])
-#    animate(1)
-#    parent.resizable(False, False)
-#    parent._offsetx = 0
-#    parent._offsety = 0
-#    parent.bind('<Button-1>',clickwin)
-#    parent.bind('<B1-Motion>',dragwin)
-#    parent.update_idletasks()
-#    parent.overrideredirect(1)
-#    parent.mainloop()
+def hearn():
+   global canvas
+   global image
+   canvas = tkinter.Canvas(parent, width=400, height=400)
+   parent.resizable(width=False, height=False)
+   #self.window = tkinter.Toplevel(self.canvas)
+   canvas.pack()
+   
+   image = canvas.create_image(200,200, image=sequence[0])
+   animate(parent, 1)
+   parent.resizable(False, False)
+   parent._offsetx = 0
+   parent._offsety = 0
+   parent.bind('<Button-1>',clickwin)
+   parent.bind('<B1-Motion>',dragwin)
+   parent.update_idletasks()
+   parent.overrideredirect(1)
+   parent.mainloop()
 
-#def animate(parent, counter):
-#    parent.canvas.itemconfig(parent.image, image=parent.sequence[counter])
-#    parent.parent.after(20, lambda: parent.animate((counter+1) % len(parent.sequence)))
+def animate(parent, counter):
+   canvas.itemconfig(image, image=sequence[counter])
+   parent.after(20, lambda: animate(parent, (counter+1) % len(parent.sequence)))
 
-#def dragwin(self,event):
-#    x = self.parent.winfo_pointerx() - self.parent._offsetx
-#    y = self.parent.winfo_pointery() - self.parent._offsety
-#    self.parent.geometry('+{x}+{y}'.format(x=x,y=y))
+def dragwin(parent, event):
+   x = parent.winfo_pointerx() - parent._offsetx
+   y = parent.winfo_pointery() - parent._offsety
+   parent.geometry('+{x}+{y}'.format(x=x,y=y))
 
-#def clickwin(self,event):
-#    self.parent._offsetx = event.x
-#    self.parent._offsety = event.y
+def clickwin(parent,event):
+   parent._offsetx = event.x
+   parent._offsety = event.y
 
 def HearMe():
     r=rec.Recognizer()
@@ -124,14 +129,19 @@ def HearMe():
         print("Didn't hear anything, Say it again please.")
         return "None"
     return query
-
+# TrLp1 = Thread(target = HearMe)
+# TrLp2 = Thread(target = hearn)
 if __name__ == "__main__":
-
-    Welc()
+    # hearn()
+    # Welc()
 
     while True:
-        query = HearMe().lower()
+        # TrLp1.start()
+        # TrLp1.join()
+        # TrLp2.start()
+        # TrLp2.join()
 
+        query = HearMe().lower()
         # All voice cmds will be stored as lower case string
         #for easy recognition azbi
 
@@ -141,13 +151,13 @@ if __name__ == "__main__":
         elif 'date' in query:
             Retdate()
 
-        elif 'n wikipedia' in query:
-            speak("what should i search?")
-            srch = HearMe()
-            result = wiki.summary(srch,sentences=3)
-            speak('According to Wikipedia.')
-            print(result)
-            speak(result)
+        elif 'what is' in query:
+            srch = query.replace("what is ", "")
+            if len(srch):
+                result = wiki.summary(srch,sentences=3)
+                speak('According to Wikipedia.')
+                print(result)
+                speak(result)
         
         elif 'youtube' in query:
             speak('what you want me to search?')

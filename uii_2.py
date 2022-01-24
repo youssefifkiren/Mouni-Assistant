@@ -2,7 +2,7 @@ import tkinter
 from PIL import Image, ImageTk, ImageSequence
 
 root = tkinter.Tk()
-#root.wm_attributes('-type', 'splash')
+# root.wm_attributes('-alpha', 20.0)
 
 class App:
     def __init__(self, parent):
